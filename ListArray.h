@@ -11,6 +11,15 @@ class ListArray : public List<T> {
         static const int MINSIZE;
 
     public:
+        ListArray(){
+            this->MINSIZE = 2;
+            this->arr = new ListArray;            
+        }
+
+        ~ListArray(){
+            delete[] arr;
+        }
+
         void insert(int pos, T e){
           if(pos < 0 || pos > size()-1){
               throw std::out_of_range("Posición no válida");
@@ -20,11 +29,11 @@ class ListArray : public List<T> {
         }
 
         void append(T e){
-          arr[max] = e;
+          insert(n, e);
         }
 
         void prepend(T e){
-          arr[0] = e;
+          insert(0, e);
         }
 
         T remove(int pos){
@@ -40,9 +49,8 @@ class ListArray : public List<T> {
         T get(int pos){
           if(pos < 0 || pos > size()-1){
               throw std::out_of_range("Posición no válida");
-          }else{
-            T elemento = arr[pos];
-            return elemento;
+          }else{ 
+            return arr[pos];
           }
         }  
 
@@ -56,12 +64,20 @@ class ListArray : public List<T> {
 
         bool empty(){
           if (size() == 0)
-            return true
+            return true;
           else
-            return false
+            return false;
         }
 
         int size(){
-          return arr.size();
-        }          
+          return n;
+        }   
+
+        T operator[](int pos){
+            if(pos < 0 || pos > size()-1){
+              throw std::out_of_range("Posición no válida");
+            }else{
+              
+            }
+        }
 };
