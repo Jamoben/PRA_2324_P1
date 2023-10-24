@@ -8,36 +8,53 @@ class ListArray : public List<T> {
         T* arr;
         int max;
         int n;
-        static const int MINSIZE;
+        static const int MINSIZE = 2;
 
     public:
+        /* Métodos de ListArray */
         ListArray(){
-            this->MINSIZE = 2;
-            this->arr = new ListArray;            
+            max = MINSIZE;
+            n = 0;
+            arr = new T[MINSIZE];            
         }
 
         ~ListArray(){
             delete[] arr;
         }
 
-        void insert(int pos, T e){
-          if(pos < 0 || pos > size()-1){
+        T operator[](int pos){
+            if(pos < 0 || pos > size()){
+              throw std::out_of_range("Posición no válida");
+            }else{
+              return arr[pos];
+            }
+        }
+
+        friend std::ostream& operator<<(std::ostream &out, const ListArray<T> &list){
+            
+            
+        }
+
+        /* Métodos de List */
+
+        void insert(int pos, T e) override{
+          if(pos < 0 || pos > size()){
               throw std::out_of_range("Posición no válida");
           }else{
             arr[pos] = e;
           }
         }
 
-        void append(T e){
+        void append(T e) override{
           insert(n, e);
         }
 
-        void prepend(T e){
+        void prepend(T e) override{
           insert(0, e);
         }
 
-        T remove(int pos){
-          if(pos < 0 || pos > size()-1){
+        T remove(int pos) override{
+          if(pos < 0 || pos > size()){
               throw std::out_of_range("Posición no válida");
           }else{
             T elemento = arr[pos];
@@ -46,38 +63,30 @@ class ListArray : public List<T> {
           }
         }
 
-        T get(int pos){
-          if(pos < 0 || pos > size()-1){
+        T get(int pos) override{
+          if(pos < 0 || pos > size()){
               throw std::out_of_range("Posición no válida");
           }else{ 
             return arr[pos];
           }
         }  
 
-        int search(T e){
-          for(int i = 0; i < size() - 1; i++){
+        int search(T e) override{
+          for(int i = 0; i < size(); i++){
             if(arr[i] == e)
               return i;
           }
           return -1;
         }
 
-        bool empty(){
+        bool empty() override{
           if (size() == 0)
             return true;
           else
             return false;
         }
 
-        int size(){
+        int size() override{
           return n;
         }   
-
-        T operator[](int pos){
-            if(pos < 0 || pos > size()-1){
-              throw std::out_of_range("Posición no válida");
-            }else{
-              
-            }
-        }
 };
