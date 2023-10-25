@@ -11,7 +11,9 @@ class ListArray : public List<T> {
         static const int MINSIZE = 2;
 
     public:
+
         /* Métodos de ListArray */
+
         ListArray(){
             max = MINSIZE;
             n = 0;
@@ -31,9 +33,26 @@ class ListArray : public List<T> {
         }
 
         friend std::ostream& operator<<(std::ostream &out, const ListArray<T> &list){
-            
-            
-        }
+            out << "List => [";
+		    if(list.n > 0){
+			    for(int i = 0; i < list.n ; i++){
+				    out << "\n\t" << list.arr[i];
+			}
+			    out << "\n]";
+		    }else{
+			    out << "]";
+		    }
+		    return out;
+            }
+
+        void resize(int new_size){
+            T* newarr = new T[new_size];
+            for(int i = 0; i < new_size; i++)
+                newarr[i] = arr[i];
+            delete[] arr;
+            arr = new arr;
+            max = new_size;
+        }        
 
         /* Métodos de List */
 
