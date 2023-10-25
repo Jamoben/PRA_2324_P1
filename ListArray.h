@@ -49,21 +49,32 @@ class ListArray : public List<T> {
 
         void resize(int new_size){
             T* newarr = new T[new_size];
-            for(int i = 0; i < new_size; i++)
+            for(int i = 0; i < new_size; i++){
                 newarr[i] = arr[i];
+            }
             delete[] arr;
-            arr = new arr;
+            arr = newarr;
             max = new_size;
         }        
 
         /* Métodos de List */
 
         void insert(int pos, T e) override{
-          if(pos < 0 || pos > size()){
+          if(pos < 0 || pos >= max){
               throw out_of_range("Posición no válida");
+          }
+          if((n+1) > max){
+            resize(n+1);
+          }
+          if(pos > n-1 || n == 0){
+            arr[n] = e;
           }else{
+            for(int i = 0,x = n,m = pos; m < n ;i++,m++){
+              arr[x-i] = arr[(x-i)-1];
+            }
             arr[pos] = e;
           }
+          n += 1;
         }
 
         void append(T e) override{
@@ -75,17 +86,25 @@ class ListArray : public List<T> {
         }
 
         T remove(int pos) override{
-          if(pos < 0 || pos > size()){
-              throw out_of_range("Posición no válida");
-          }else{
-            T elemento = arr[pos];
-            arr[pos] = NULL;
-            return elemento;
+          if(pos < 0 || pos >=max || n == 0 || pos >=n){
+            throw out_of_range("Posicion no valida");
           }
-        }
+
+          T borrar = arr[pos];
+
+          if(pos == n-1){
+            arr[pos] = -1;
+          }else{
+            for(int i = pos; i < n-1 ;i++){
+              arr[i] = arr[i+1];
+            }
+          }
+          n--;
+          return borrar;
+		}
 
         T get(int pos) override{
-          if(pos < 0 || pos > size()){
+          if(pos < 0 || pos >= max){
               throw out_of_range("Posición no válida");
           }else{ 
             return arr[pos];
@@ -93,7 +112,7 @@ class ListArray : public List<T> {
         }  
 
         int search(T e) override{
-          for(int i = 0; i < size(); i++){
+          for(int i = 0; i < n; i++){
             if(arr[i] == e)
               return i;
           }

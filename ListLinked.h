@@ -30,7 +30,7 @@ class ListLinked : public List<T> {
 	}
 
 	T operator[](int pos){
-	  if(pos < 0 || pos >=n ){
+	  if(pos < 0 || pos >=n){
 	    throw out_of_range("Posicion invalida");
 	  }
 			
@@ -60,17 +60,24 @@ class ListLinked : public List<T> {
         /* Métodos de List */
 
         void insert(int pos, T e) override{
-          if(pos < 0 || pos > size()){
+          if(pos < 0 || pos > n){
               throw out_of_range("Posición no válida");
-          }else{
-            Node<T>* aux = new Node<T>(e);
-	    aux = first;
-	    for(int i = 1 ; i < pos ; i++){
-              aux = aux->next;
-            }
-	    n += 1;
           }
-        }
+          Node<T>* aux = new Node<T>(e);
+          if(pos == 0){
+            aux->next = first;
+            first = aux;
+          }else{
+            Node<T>* aux2 = first;
+            for(int i = 1 ; i < pos ; i++){
+              aux2 = aux2->next;
+            }
+            aux->next = aux2->next;
+            aux2->next = aux;
+          }
+          n += 1;
+          }
+
 
         void append(T e) override{
           insert(n, e);
@@ -81,39 +88,49 @@ class ListLinked : public List<T> {
         }
 
         T remove(int pos) override{
-          if(pos < 0 || pos > size()){
+          if(pos < 0 || n == 0 || pos > n){
               throw out_of_range("Posición no válida");
-          }else{
-	    Node<T>* aux = first;
-	    for(int i = 1; i < pos; i++){
-		aux = aux->next;
-	    }
-            Node<T>* borrar = aux->next;
-            aux->next = borrar->next;
-	    T elemento = borrar->data;
-	    delete borrar;
-	    n--;
-            return elemento;
           }
-        }
+          T borrar;
+
+          if(pos == 0){
+            Node<T>* aux = first;
+            first = first ->next;
+            borrar = aux->data;
+            delete aux;
+          }else{
+            Node<T>* aux2 = first;
+            for(int i = 1; i < pos; i++){
+              aux2 = aux2->next;
+            }
+            Node<T>* aux = aux2->next;
+            aux2->next = aux->next;
+            borrar = aux->data;
+            delete aux;
+          }
+          n--;
+          return borrar;
+          }
 
         T get(int pos) override{
-          if(pos < 0 || pos > size()){
+          if(pos < 0 || pos >= n){
               throw out_of_range("Posición no válida");
           }else{ 
              Node<T>* aux = first;
-	     for (int i = 0; i < pos; i++) {
-	       aux = aux->next;
-	     }
-	  return aux->data;
+          for (int i = 0; i < pos; i++) {
+            aux = aux->next;
+          }
+          return aux->data;
           }
         }  
 
         int search(T e) override{
-	  Node<T>* aux = first;
-          for(int i = 0; i < size(); i++){
-            if(aux->data == e)
+          Node<T>* aux = first;
+          for(int i = 0; i < n; i++){
+            if(aux->data == e){
               return i;
+            }
+            aux = aux->next;
           }
           return -1;
         }
