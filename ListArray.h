@@ -28,7 +28,7 @@ class ListArray : public List<T> {
 
         T operator[](int pos){
             if(pos < 0 || pos > size()){
-              throw std::out_of_range("Posición no válida");
+              throw out_of_range("Posición no válida");
             }else{
               return arr[pos];
             }
@@ -60,7 +60,7 @@ class ListArray : public List<T> {
 
         void insert(int pos, T e) override{
           if(pos < 0 || pos > size()){
-              throw std::out_of_range("Posición no válida");
+              throw out_of_range("Posición no válida");
           }else{
             arr[pos] = e;
           }
@@ -76,7 +76,7 @@ class ListArray : public List<T> {
 
         T remove(int pos) override{
           if(pos < 0 || pos > size()){
-              throw std::out_of_range("Posición no válida");
+              throw out_of_range("Posición no válida");
           }else{
             T elemento = arr[pos];
             arr[pos] = NULL;
@@ -86,7 +86,7 @@ class ListArray : public List<T> {
 
         T get(int pos) override{
           if(pos < 0 || pos > size()){
-              throw std::out_of_range("Posición no válida");
+              throw out_of_range("Posición no válida");
           }else{ 
             return arr[pos];
           }
